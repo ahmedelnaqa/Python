@@ -1,0 +1,52 @@
+import glob
+import os
+
+
+def concat_txt_files(input_dir=".", output_file="combined.txt", recursive=False):
+    """
+    Concatenates all .txt files in a directory (optionally subdirectories) into one file.
+
+    Args:
+        input_dir (str): Directory to search for .txt files (default: current directory).
+        output_file (str): Output file path (default: "combined.txt").
+        recursive (bool): If True, searches subdirectories (default: False).
+    """
+    # Ensure the input directory exists
+    if not os.path.isdir(input_dir):
+        print(f"Error: Directory '{input_dir}' does not exist.")
+        return
+
+    # Determine the search pattern (recursive or not)
+    search_pattern = "**/*.txt" if recursive else "*.txt"
+
+    # Get all .txt files (excluding the output file)
+    txt_files = [
+        f for f in glob.glob(os.path.join(input_dir, search_pattern), recursive=recursive)
+        if os.path.isfile(f) and os.path.basename(f) != os.path.basename(output_file)
+    ]
+
+    if not txt_files:
+        print("No .txt files found to concatenate.")
+        return
+
+    # Concatenate all files into the output file
+    with open(output_file, "w", encoding="utf-8") as outfile:
+        for file in txt_files:
+            try:
+                with open(file, "r", encoding="utf-8") as infile:
+                    outfile.write(infile.read())
+                    outfile.write("\n")  # Add a newline between files
+            except Exception as e:
+                print(f"Error reading {file}: {e}")
+
+    print(f"Successfully concatenated {len(txt_files)} files into '{output_file}'.")
+
+
+# Example usage:
+if __name__ == "__main__":
+    # Customize these variables:
+    input_dir = "C:/Users/Samir/Desktop/del/c"  # Current directory (change to your desired path)
+    output_file = "C:/Users/Samir/Desktop/del/combined.txt"  # Output file name/path
+    recursive = True  # Set to True to search subdirectories
+
+    concat_txt_files(input_dir, output_file, recursive)
