@@ -54,6 +54,7 @@ The JSON file contains a FHIR Bundle with 4 distinct healthcare resources:
    - Coded categories (LOINC codes 34117-2, 51847-2)
 
 ### **Key Data Points Available**
+
 ```
 Patient Demographics:
 ├── Name: Aaron697 Leandro563 Grimes165
